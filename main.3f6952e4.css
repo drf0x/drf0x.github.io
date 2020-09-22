@@ -19,3 +19,17 @@
     font-size: 30px;
     padding-top: 22px;
 }
+.a {
+	padding-left: 15px;
+}
+.fancy-link {
+   color: #FFF;
+   text-decoration: none;
+   transition: color 0.3s linear;
+   -webkit-transition: color 0.3s linear;
+   -moz-transition: color 0.3s linear;
+}
+
+.fancy-link:hover {
+   color: #F44336;
+}
