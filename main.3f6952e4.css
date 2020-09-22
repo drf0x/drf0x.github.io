@@ -21,16 +21,15 @@
 }
 .a {
 	padding-left: 65px;
-	text-decoration: none;
 }
 .fancy-link {
-   color: #FFF;
-   text-decoration: none;
-   transition: color 0.3s linear;
-   -webkit-transition: color 0.3s linear;
-   -moz-transition: color 0.3s linear;
+   color: #FFF !important;
+   transition: color 0.3s linear !important;
+   -webkit-transition: color 0.3s linear !important;
+   -moz-transition: color 0.3s linear !important;
 }
 
 .fancy-link:hover {
    color: #999999.;
+   text-decoration: none !important;
 }
