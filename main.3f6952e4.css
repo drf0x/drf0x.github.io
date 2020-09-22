@@ -30,6 +30,6 @@
 }
 
 .fancy-link:hover {
-   color: #999999.;
+   color: #999 !important;
    text-decoration: none !important;
 }
