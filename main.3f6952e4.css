@@ -20,7 +20,8 @@
     padding-top: 22px;
 }
 .a {
-	padding-left: 15px;
+	padding-left: 65px;
+	text-decoration: none;
 }
 .fancy-link {
    color: #FFF;
@@ -31,5 +32,5 @@
 }
 
 .fancy-link:hover {
-   color: #F44336;
+   color: #999999.;
 }
