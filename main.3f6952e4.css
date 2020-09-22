@@ -33,3 +33,7 @@
    color: #999 !important;
    text-decoration: none !important;
 }
+
+.paragragh li {
+	margin-top: 20px;
+}
