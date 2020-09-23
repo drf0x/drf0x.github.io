@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <meta content="description" name="description">
+  <meta name="google" content="notranslate" />
+  <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+
+  <meta name="msapplication-tap-highlight" content="no">
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-icon-180x180.png">
+  <link href="./assets/favicon.ico" rel="icon">
+
+  <title>HA Joker CTF</title>  
+
+<link href="./main.3f6952e4.css" rel="stylesheet"></head>
+
+<body class="minimal">
+<div id="site-border-left"></div>
+<div id="site-border-right"></div>
+<div id="site-border-top"></div>
+<div id="site-border-bottom"></div>
+<header>
+  <nav class="navbar  navbar-fixed-top navbar-inverse">
+    <div class="container">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+
+        <ul class="nav navbar-nav " style="margin-top: 32px;">
+          <li><a href="./index.html" title="">01 : Home</a></li>
+          <li><a href="./writeups.html" title="">02 : Writeups</a></li>
+          <li><a href="./about.html" title="">03 : About me</a></li>
+        </ul>
+                    <div class="locate" style="float: right;">
+    <script src="https://tryhackme.com/badge/172872"></script>
+         </div>
+
+      </div> 
+    </div>
+  </nav>
+</header>
+  <div class="hero-full-container background-image-container white-text-container" style="overflow: auto;background-image: url('./assets/images/back.jpg')">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="hero-full-wrapper">
+            <div class="text-content mytext">
+              <h1>Dav - THM<br>
+                <div class="paragragh">
+                  <p>
+<br>
+<br>
+<p>Ok lets start with the basics, Nmap, Gobuster etc.</p>
+<br>
+<p>nmap -v -sC -sV -oA nmap  10.10.153.21</p>
+<br>
+<br>
+<img src="./dav/1.png">
+<br>
+<br>
+<p>Looks like we only have one port open... port 80, lets take a look.</p>
+<br>
+<br>
+<img src="./dav/2.png">
+<br>
+<br>
+<p>Ok so we got a default ubuntu page but not much we can work with, lets try godbuster</p>
+<br>
+<p>gobuster dir -u 10.10.153.21 -w /usr/share/wordlists/dirb/common.txt -t 20 -x .php,.txt,.htm</p>
+<br>
+<br>
+<img src="./dav/3png">
+<br>
+<br>
+<p>Ok so not much but one directory does look intresting, lest try /webdav</p>
+<br>
+<br>
+<img src="./dav/4.png">
+<br>
+<br>
+<p>Seems like its password protected. Just a few google searches and some enumerating and you can found the deafult logins for webdav </p>
+<br>
+<p>You can find the website <a href="https://xforeveryman.blogspot.com/2012/01/helper-webdav-xampp-173-default.html" title="">here</a>.</p>
+<br>
+<p>wampp:xampp</p>
+<br>
+<br>
+<p>Ok cool now we have access to /webdev, after looking around theres not much to see other the the password file which we already owned</p>
+<br>
+<br>
+<img src="./dav/5.png">
+<br>
+<br>
+<p>Looking at another website which you can find <a href="https://null-byte.wonderhowto.com/how-to/exploit-webdav-server-get-shell-0204718/" title="">here</a> we can see an easy exploit to upload a file which we can abuse to upload a reverse shell!</p>
+<br>
+<p>cadaver http://10.10.153.21/webdav
+<br>
+<img src="./dav/6.png">
+<br>
+<p>From here have access to be able to put files which we can abuse to upload a reverse shell</p>
+<br>
+<img src="./dav/7.png">
+<br>
+<p>Now if we go back to 10.10.153.21/webdav/ we can see our reverse shell there</p>
+<br>
+<p>Lets setup a listener to get the shell</p>
+<br>
+<img src="./dav/8.png">
+<br>
+<p>Open the reverse shell on /webdav and bam, we got a shell.</p>
+<br>
+<img src="./dav/9.png">
+<br>
+<p>Lets improve our shell</p>
+<br>
+<p>python -c 'import pty; pty.spawn("/bin/bash");'</p>
+<br>
+<img src="./dav/10.png">
+<br>
+<p>Lets see what sudo permission we have</p>
+<br>
+<img src="./dav/11.png">
+<br>
+<p>Looks like we can abuse ‘cat’. Lets try cat the root flag</p>
+<br>
+<p>sudo cat /root/root.txt</p>
+<br>
+<img src="./dav/12.png">
+<br>
+<p>Easy as that we got the root flag!</p>
+<br>
+<p>Thank you for reading my writeup and enjoy the rest of your day :)</p>
+<br>
+<br>
+<br>
+
+
+
+
+                </div>
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function (event) {
+     type();
+     movingBackgroundImage();
+  });
+</script>
+
+
+<script type="text/javascript" src="./main.70a66962.js"></script></body>
+
+</html>
