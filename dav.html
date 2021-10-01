@@ -65,7 +65,7 @@
 <br>
 <p>Ok lets start with the basics, Nmap, Gobuster etc.</p>
 <br>
-<p>nmap -v -sC -sV -oA nmap  10.10.153.21</p>
+<p><span class="highlight">nmap -v -sC -sV -oA nmap  10.10.153.21</span></p>
 <br>
 <br>
 <img src="./dav/1.png">
@@ -79,7 +79,7 @@
 <br>
 <p>Ok so we got a default ubuntu page but not much we can work with, lets try godbuster</p>
 <br>
-<p>gobuster dir -u 10.10.153.21 -w /usr/share/wordlists/dirb/common.txt -t 20 -x .php,.txt,.htm</p>
+<p><span class="highlight">gobuster dir -u 10.10.153.21 -w /usr/share/wordlists/dirb/common.txt -t 20 -x .php,.txt,.htm</span></p>
 <br>
 <br>
 <img src="./dav/3.png">
@@ -126,7 +126,7 @@
 <br>
 <p>Lets improve our shell</p>
 <br>
-<p>python -c 'import pty; pty.spawn("/bin/bash");'</p>
+<p><span class="highlight">python -c 'import pty; pty.spawn("/bin/bash");'</span></p>
 <br>
 <img src="./dav/10.png">
 <br>
