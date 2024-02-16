@@ -12,7 +12,7 @@ function recize_notes() {
     if (notes[i].classList.contains("active")) {
       notes[i].classList.remove("active");
       gsap.set(notes[i], {
-        height: "60%",
+        height: "30%",
         clearProps: "all"
       });
     }
